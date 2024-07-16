@@ -3,15 +3,31 @@ POST http://localhost:3000/auth/signup
 content-type: application/json
 
 {
-  "email": "asdf@asdf.com",
-  "password": "asdlfkajsd"
+  "email": "testingCookie@asdf.com",
+  "password": "zxcvmlmsldmfads"
 }
+
+
+### login user
+POST http://localhost:3000/auth/signin
+content-type: application/json
+
+{
+  "email": "testingCookie@asdf.com",
+  "password": "zxcvmlmsldmfads"
+}
+### who am i
+GET http://localhost:3000/auth/whoami
+
+### signout
+POST http://localhost:3000/auth/signout
+
 
 ### Find a particular user with a given ID
 GET http://localhost:3000/auth/2
 
 ### Find all users with a given email
-GET http://localhost:3000/auth?email=asdf@asdf.com
+GET http://localhost:3000/auth?email=asd88f@asdf.com
 
 ### Delete a user given id
 DELETE http://localhost:3000/auth/1
@@ -23,3 +39,5 @@ content-type: application/json
 {
   "password": "aaaaa"
 }
+
+

@@ -1,14 +1,31 @@
-import { CallHandler, ExecutionContext, NestInterceptor } from "@nestjs/common";
+import { CallHandler, ExecutionContext, NestInterceptor, UseInterceptors } from "@nestjs/common";
+import { plainToClass } from "class-transformer";
 import { map, Observable } from "rxjs";
 
-export class SerializeInterceptor implements NestInterceptor{
-  intercept(context: ExecutionContext, handler: CallHandler) : Observable<any>{
-    //Run before request.
-    console.log('Running before Handler', context);
+interface ClassCronstructor{
+  new(...args: any[]): {}
+}
 
+
+export function Serialize(dto: ClassCronstructor){
+  return UseInterceptors(new SerializeInterceptor(dto));
+}
+
+
+
+export class SerializeInterceptor implements NestInterceptor{
+  constructor(private dto: any){
+  }_
+  intercept(context: ExecutionContext, handler: CallHandler) : Observable<any>{
+    
+
+    //data(User entity instance)를 JSON으로 변환하기전, interceptor가 하이잭해서 user dto instance에 맞춰서 user dto instance로 변환하면, nest가
+    //그걸 받아서 JSON으로 변환해서 리턴.
     return handler.handle().pipe(
       map((data: any) => {
-        console.log('im running before response is sent out', data)
+        return plainToClass(this.dto, data, {
+          excludeExtraneousValues: true,
+        })
       }),
     );
   }
